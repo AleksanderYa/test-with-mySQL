@@ -1,3 +1,3 @@
-Изучи работу пакета mysql
+РР·СѓС‡Рё СЂР°Р±РѕС‚Сѓ РїР°РєРµС‚Р° mysql
 
 https://www.w3schools.com/python/python_mysql_insert.asp
