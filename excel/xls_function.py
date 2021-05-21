@@ -146,7 +146,9 @@ def add_bayway(product_list, *arg):
             product = product_list[::-1]
             temp = []
             temp.append(arg[0])
+            print(arg[0])
             temp.append(arg[1])
+            print(arg[1])
             product.append(temp)
             product = product[::-1]
             print('All done...bayer and waybill add to list')
@@ -156,16 +158,33 @@ def add_bayway(product_list, *arg):
         print(e) 
         print('Wrong format in add_bauway')
         print(arg[0])
-        return arg[0] 
+        return e 
 
-def create_infolist(text):
+def create_infolist(way,name):
+    '''
+    input str путь к файлу
+    
+    '''
     return add_bayway(
-        product(text),
-        bayer(text),
-        waybill(text)
+        product(way),
+        bayer(way),
+        waybill_text(name)
     )
 
- 
+def waybill_text(text):
+    try:
+        text[1]
+        pattern_nak = 'Видаткова'
+        pattern_nomber = r'[№] [0-9]+|[№][0-9]+|[№]\s+[0-9]+'
+        pattern_date = r'[0-9]{2}[.]{1}[0-9]{2}[.]{1}[0-9]+'
+        res_nomber = re.findall(pattern_nomber, text)[0][1:]
+        res_date = re.findall(pattern_date, text)[0]
+        res_nak = re.findall(pattern_nak, text)[0]
+        print('watet', [res_nak, res_nomber, res_date])
+        return [text, res_nak, res_nomber, res_date]
+    except Exception as e:
+        print(e)
+        
 # def search_xls():
 #     temp_list = []
 #     for i in os.walk('./'):
@@ -194,14 +213,14 @@ def search_xls():
                 res = ii
 #                 res = test(ii)
                 print('Finded file -->',ii)
-                temp_list.append(res)
+                temp_list.extend([[res, waybill_text(ii)]])
                 print(res)
                 print()
             elif ii.endswith(".xls") and i[0] != './' and test_to_waybill(ii):
 #                 res = test(ii)
                 res = i[0]+ '/' + ii
                 print('Finded file -->',ii)
-                temp_list.append(res)
+                temp_list.extend([[res, waybill_text(ii)]])
                 print(res)
                 print()
     return temp_list
@@ -212,16 +231,3 @@ def test_to_waybill(text):
          return True
     else:
         return False
-    
-def waybill_text(text):
-    try:
-        pattern_nak = 'Видаткова'
-        pattern_nomber = r'[№] [0-9]+|[№][0-9]+|[№]\s+[0-9]+'
-        pattern_date = r'[0-9]{2}[.]{1}[0-9]{2}[.]{1}[0-9]+'
-        res_nomber = re.findall(pattern_nomber, text)[0][1:]
-        res_date = re.findall(pattern_date, text)[0]
-        res_nak = re.findall(pattern_nak, text)[0]
-
-        return [res_nak, res_nomber, res_date]
-    except Exception as e:
-        print(e)
