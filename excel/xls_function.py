@@ -89,7 +89,7 @@ def product(sheet, text):
     #                                 base.append(c_ell)
 
                         elif coll and not res_end:
-    #                                 c_ell = str_to_float(c_ell)
+                            c_ell = str_to_float(c_ell)
                             base.append(c_ell)
     #                                 print('2',c_ell)
                         elif res_end and coll:
