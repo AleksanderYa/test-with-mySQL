@@ -38,7 +38,7 @@ def waybill(sheet, text):
                         return c_ell
             except Exception as e:
                 pass
-        
+#     return waybill_text(text)
         
 @connect
 def bayer(sheet, text):
@@ -66,54 +66,42 @@ def bayer(sheet, text):
             
 @connect
 def product(sheet, text):
-#     try:
     coll = ''
     base = []
     for rownum in range(sheet.nrows):
         row = sheet.row_values(rownum)
         for c_ell in row:
-#                 try:
-#                     print(c_ell)
                 if c_ell:
                     c_ell = str(c_ell)
-#                         print(c_ell)
+                    
                     try:
                         reg_text = r'Сума без ПДВ'
                         reg_end_text = r'Всього:'
                         res = re.match(reg_text, c_ell)
                         res_end = re.search(reg_end_text, c_ell)
-    #                             print(res, '----------', coll)
                         if res and not coll:
-    #                                 print('1',c_ell)
                             coll = c_ell
-    #                                 base.append(c_ell)
 
                         elif coll and not res_end:
                             c_ell = str_to_float(c_ell)
                             base.append(c_ell)
-    #                                 print('2',c_ell)
+                            
                         elif res_end and coll:
                             coll = ''
-    #                                 print('3',c_ell)
                             base = test_sorted(base)
                             return base
-    #                             else:
-    #                                 base.append("lol")
+
                     except Exception as e:
                         print('in try', e)
 
-#     return base               
-#     except Exception as e:
-#         print(e)
-        
 
-    
 def str_to_float(text):
     try:
         return float(text)
     except Exception as e:
         return text
 
+    
 def test_sorted(obj):
     base = []
     re_base = []
@@ -164,27 +152,7 @@ def create_infolist(text):
         bayer(text),
         waybill(text)
     )
-
- 
-# def search_xls():
-#     temp_list = []
-#     for i in os.walk('./'):
-#         for ii in i[2]:
-#             if ii.endswith(".xls") and i[0] == './' :
-#                 res = ii
-#                 print('Finded file -->',ii)
-#                 temp_list.append(res)
-#                 print(res)
-#                 print()
-#             elif ii.endswith(".xls") and i[0] != './' :
-#                 res = i[0]+ '/' + ii
-#                 print('Finded file -->',ii)
-#                 temp_list.append(res)
-#                 print(res)
-#                 print()
-#     return temp_list
- 
-    
+   
     
 def search_xls():
     temp_list = []
@@ -212,3 +180,18 @@ def test_to_waybill(text):
          return True
     else:
         return False
+    
+def waybill_text(text):
+    temp_list = []
+#     res = ''
+    res = text.split(' ')
+    print('waybill_text res', res)
+    date = res[-1]
+    print('waybill_text datwe', date)
+    date = date.split('.')
+    print('waybill_text date', date)
+    dat = date[0]+'/'+date[1]+'/'+date[2]
+    print(dat)
+    temp_list.extend([res[0], res[3], dat])
+    print(temp_list)
+    return temp_list
