@@ -212,3 +212,16 @@ def test_to_waybill(text):
          return True
     else:
         return False
+    
+def waybill_text(text):
+    try:
+        pattern_nak = 'Видаткова'
+        pattern_nomber = r'[№] [0-9]+|[№][0-9]+|[№]\s+[0-9]+'
+        pattern_date = r'[0-9]{2}[.]{1}[0-9]{2}[.]{1}[0-9]+'
+        res_nomber = re.findall(pattern_nomber, text)[0][1:]
+        res_date = re.findall(pattern_date, text)[0]
+        res_nak = re.findall(pattern_nak, text)[0]
+
+        return [res_nak, res_nomber, res_date]
+    except Exception as e:
+        print(e)
