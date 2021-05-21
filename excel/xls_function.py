@@ -1,6 +1,6 @@
 import xlrd
 import re
-
+import os
 
 def connect(func):
     def wrapper(*arg, **kwarg):
@@ -30,7 +30,8 @@ def waybill(sheet, text):
             try:
                 if c_ell:
                     reg_text = r'Видаткова накладна'
-                    res = re.match(reg_text, c_ell)
+                    res = re.findall(reg_text, c_ell)
+#                     res = c_ell.startswitch('Видаткова накладна')
                     if res and not coll:
                         coll = c_ell
 #                         print(coll)
@@ -140,16 +141,46 @@ def test_sorted(obj):
         
         
 def add_bayway(product_list, *arg):
-    if type(product_list) == list: 
-        product = product_list[::-1]
-        temp = []
-        temp.append(arg[0])
-        temp.append(arg[1])
-        product.append(temp)
-        product = product[::-1]
-        print('All done...bayer and waybill add to list')
-        print()
-        return product
-    else:
+    try:
+        if type(product_list) == list: 
+            product = product_list[::-1]
+            temp = []
+            temp.append(arg[0])
+            temp.append(arg[1])
+            product.append(temp)
+            product = product[::-1]
+            print('All done...bayer and waybill add to list')
+            print()
+            return product
+    except Exception as e: 
+        print(e) 
         print('Wrong format in add_bauway')
-        return None       
+        print(arg[0])
+        return arg[0] 
+
+def create_infolist(text):
+    return add_bayway(
+        product(text),
+        bayer(text),
+        waybill(text)
+    )
+
+ 
+def search_xls():
+    temp_list = []
+    for i in os.walk('./'):
+        for ii in i[2]:
+            if ii.endswith(".xls") and i[0] == './' :
+                res = ii
+                print('Finded file -->',ii)
+                temp_list.append(res)
+                print(res)
+                print()
+            elif ii.endswith(".xls") and i[0] != './' :
+                res = i[0]+ '/' + ii
+                print('Finded file -->',ii)
+                temp_list.append(res)
+                print(res)
+                print()
+    return temp_list
+    
