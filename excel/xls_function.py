@@ -166,21 +166,49 @@ def create_infolist(text):
     )
 
  
+# def search_xls():
+#     temp_list = []
+#     for i in os.walk('./'):
+#         for ii in i[2]:
+#             if ii.endswith(".xls") and i[0] == './' :
+#                 res = ii
+#                 print('Finded file -->',ii)
+#                 temp_list.append(res)
+#                 print(res)
+#                 print()
+#             elif ii.endswith(".xls") and i[0] != './' :
+#                 res = i[0]+ '/' + ii
+#                 print('Finded file -->',ii)
+#                 temp_list.append(res)
+#                 print(res)
+#                 print()
+#     return temp_list
+ 
+    
+    
 def search_xls():
     temp_list = []
     for i in os.walk('./'):
         for ii in i[2]:
-            if ii.endswith(".xls") and i[0] == './' :
+            if ii.endswith(".xls") and i[0] == './' and test_to_waybill(ii):
                 res = ii
+#                 res = test(ii)
                 print('Finded file -->',ii)
                 temp_list.append(res)
                 print(res)
                 print()
-            elif ii.endswith(".xls") and i[0] != './' :
+            elif ii.endswith(".xls") and i[0] != './' and test_to_waybill(ii):
+#                 res = test(ii)
                 res = i[0]+ '/' + ii
                 print('Finded file -->',ii)
                 temp_list.append(res)
                 print(res)
                 print()
     return temp_list
-    
+ 
+def test_to_waybill(text):
+    str.startswith
+    if text.startswith('Видаткова'):
+         return True
+    else:
+        return False
