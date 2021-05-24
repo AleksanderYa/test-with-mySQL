@@ -207,14 +207,14 @@ def waybill_text(text):
     
 def search_xls():
     temp_list = []
-    for i in os.walk('./'):
-        for ii in i[2]:
-            if ii.endswith(".xls") and i[0] == './' and test_to_waybill(ii):
-                res = ii
-#                 res = test(ii)
+    for i in os.walk('./'): # Гуляем по кореневой папке и всем вложениям, класная штука, возвращает список
+        
+        for ii in i[2]: # берем название папки или файла из списка
+            
+            if ii.endswith(".xls") and i[0] == './' and test_to_waybill(ii):  # если ексель файл то в +
                 print('Finded file -->',ii)
-                temp_list.extend([[res, waybill_text(ii)]])
-                print(res)
+                temp_list.extend([[ii, waybill_text(ii)]])
+                print(ii)
                 print()
             elif ii.endswith(".xls") and i[0] != './' and test_to_waybill(ii):
 #                 res = test(ii)
