@@ -2,6 +2,8 @@ import xlrd
 import re
 import os
 
+
+
 def connect(func):
     def wrapper(*arg, **kwarg):
         try:
@@ -129,7 +131,8 @@ def create_infolist(way,name):
 def add_bayway(product_list, *arg):
     try:
         if type(product_list) == list: 
-            product = product_list[::-1]
+            product = []
+            product.append(product_list[::])
             temp = []
             temp.append(arg[0])
             print(arg[0])
@@ -190,54 +193,34 @@ def test_sorted(obj):
         except Exception as e:
             print('test_sorted',e)
         
+
         
-def add_bayway(product_list, *arg):
-    try:
-        if type(product_list) == list: 
-            product = product_list[::-1]
-            temp = []
-            temp.append(arg[0])
-            print(arg[0])
-            temp.append(arg[1])
-            print(arg[1])
-            product.append(temp)
-            product = product[::-1]
-            print('All done...bayer and waybill add to list')
-            print()
-            
-            return product
         
-    except Exception as e: 
-        print(e) 
-        print('Wrong format in add_bauway')
-        print(arg[0])
         
-        return e 
-
-    
-    
-
-
-
+        
 
 def waybill_text(text):
     try:
         text[1]
         pattern_nak = 'Видаткова'
         pattern_nomber = r'[№] [0-9]+|[№][0-9]+|[№]\s+[0-9]+'
+        pattern_nomber_end = r'[0-9]+'
         pattern_date = r'[0-9]{2}[.]{1}[0-9]{2}[.]{1}[0-9]+'
-        res_nomber = re.findall(pattern_nomber, text)[0][1:]
+        res_nomber = re.findall(pattern_nomber, text)[0]
+        res_nomber_end = re.findall(pattern_nomber_end, text)[0]
         res_date = re.findall(pattern_date, text)[0]
         res_nak = re.findall(pattern_nak, text)[0]
-        print('watet', [res_nak, res_nomber, res_date])
+        print('watet', [res_nak, res_nomber_end, res_date])
         
-        return [text, res_nak, res_nomber, res_date]
+        return [text, res_nak, res_nomber_end, res_date]
     
     except Exception as e:
         print(e)
         
 
  
+    
+    
     
     
 def search_xls():
