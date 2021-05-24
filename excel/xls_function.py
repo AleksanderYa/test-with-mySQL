@@ -12,7 +12,9 @@ def connect(func):
                 print('Connection succerfull')
                 print()
                 res = func(sheet,*arg, **kwarg)
+                
                 return res
+            
             else:
                 print('wrong format text to connect')
         except Exception as e:
@@ -31,11 +33,12 @@ def waybill(sheet, text):
                 if c_ell:
                     reg_text = r'Видаткова накладна'
                     res = re.findall(reg_text, c_ell)
-#                     res = c_ell.startswitch('Видаткова накладна')
                     if res and not coll:
                         coll = c_ell
 #                         print(coll)
+
                         return c_ell
+
             except Exception as e:
                 pass
         
@@ -54,10 +57,13 @@ def bayer(sheet, text):
                     res = re.match(finded_text, c_el)
                     if res and not col:
                         col = c_el
+                        
                     elif col and c_el and not col2:
-#                         print(c_el)
                         col2 = c_el
-                        return c_el           
+#                         print(c_el)
+
+                        return c_el 
+    
             except Exception as e:
                 pass
 #
@@ -71,8 +77,8 @@ def product(sheet, text):
     base = []
     for rownum in range(sheet.nrows):
         row = sheet.row_values(rownum)
+        
         for c_ell in row:
-#                 try:
 #                     print(c_ell)
                 if c_ell:
                     c_ell = str(c_ell)
@@ -84,33 +90,75 @@ def product(sheet, text):
                         res_end = re.search(reg_end_text, c_ell)
     #                             print(res, '----------', coll)
                         if res and not coll:
-    #                                 print('1',c_ell)
-                            coll = c_ell
-    #                                 base.append(c_ell)
-
+                            coll = c_ell   
+#                                 print('1',c_ell)
                         elif coll and not res_end:
                             c_ell = str_to_float(c_ell)
                             base.append(c_ell)
     #                                 print('2',c_ell)
                         elif res_end and coll:
                             coll = ''
-    #                                 print('3',c_ell)
                             base = test_sorted(base)
+#                                 print('3',c_ell)
+
                             return base
-    #                             else:
-    #                                 base.append("lol")
+
                     except Exception as e:
                         print('in try', e)
 
-#     return base               
-#     except Exception as e:
-#         print(e)
-        
+            
+            
+            
+            
+    
+def create_infolist(way,name):
+    '''
+    input str путь к файлу
+    
+    '''
+    return add_bayway(
+        product(way),
+        bayer(way),
+        waybill_text(name)
+    )
 
+    
+
+    
+    
+def add_bayway(product_list, *arg):
+    try:
+        if type(product_list) == list: 
+            product = product_list[::-1]
+            temp = []
+            temp.append(arg[0])
+            print(arg[0])
+            temp.append(arg[1])
+            print(arg[1])
+            product.append(temp)
+            product = product[::-1]
+            print('All done...bayer and waybill add to list')
+            print()
+            
+            return product
+        
+    except Exception as e: 
+        print(e) 
+        print('Wrong format in add_bauway')
+        print(arg[0])
+        
+        return e 
+
+    
+
+    
+    
+    
     
 def str_to_float(text):
     try:
         return float(text)
+    
     except Exception as e:
         return text
 
@@ -119,10 +167,11 @@ def test_sorted(obj):
     re_base = []
     col = 5
     col_pos = len(obj)/6
-#     obj.append('None')
+    
     if col_pos == abs(col_pos):
         try:
-            for i in obj:       
+            for i in obj: 
+                
                 if col:
 #                     print('ts if',i, col)
                     re_base.append(i)
@@ -135,7 +184,9 @@ def test_sorted(obj):
                     col = 5
             print('all done.....base-list of product create')
             print()
+            
             return base
+        
         except Exception as e:
             print('test_sorted',e)
         
@@ -153,23 +204,21 @@ def add_bayway(product_list, *arg):
             product = product[::-1]
             print('All done...bayer and waybill add to list')
             print()
+            
             return product
+        
     except Exception as e: 
         print(e) 
         print('Wrong format in add_bauway')
         print(arg[0])
+        
         return e 
 
-def create_infolist(way,name):
-    '''
-    input str путь к файлу
     
-    '''
-    return add_bayway(
-        product(way),
-        bayer(way),
-        waybill_text(name)
-    )
+    
+
+
+
 
 def waybill_text(text):
     try:
@@ -181,27 +230,13 @@ def waybill_text(text):
         res_date = re.findall(pattern_date, text)[0]
         res_nak = re.findall(pattern_nak, text)[0]
         print('watet', [res_nak, res_nomber, res_date])
+        
         return [text, res_nak, res_nomber, res_date]
+    
     except Exception as e:
         print(e)
         
-# def search_xls():
-#     temp_list = []
-#     for i in os.walk('./'):
-#         for ii in i[2]:
-#             if ii.endswith(".xls") and i[0] == './' :
-#                 res = ii
-#                 print('Finded file -->',ii)
-#                 temp_list.append(res)
-#                 print(res)
-#                 print()
-#             elif ii.endswith(".xls") and i[0] != './' :
-#                 res = i[0]+ '/' + ii
-#                 print('Finded file -->',ii)
-#                 temp_list.append(res)
-#                 print(res)
-#                 print()
-#     return temp_list
+
  
     
     
@@ -217,17 +252,22 @@ def search_xls():
                 print(ii)
                 print()
             elif ii.endswith(".xls") and i[0] != './' and test_to_waybill(ii):
-#                 res = test(ii)
                 res = i[0]+ '/' + ii
                 print('Finded file -->',ii)
                 temp_list.extend([[res, waybill_text(ii)]])
                 print(res)
                 print()
+                
     return temp_list
  
+   
+
+    
+    
 def test_to_waybill(text):
     str.startswith
     if text.startswith('Видаткова'):
          return True
+        
     else:
         return False
