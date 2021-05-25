@@ -264,5 +264,18 @@ def correct_weight(base):
             if ii[3] == 'кг':
                 ii[3] = 'т'
                 ii[2] = ii[2]/1000
+                ii[4] = ii[4]*1000
                 print('correct кг to t')
     return base
+
+
+# def correct_price(base):
+#     base = base
+#     for i in base:
+#         for ii in i[1]:
+# #             print(ii[3])
+# #             if ii[4] == 'кг':
+#             ii[4] = ii[4]*1.2
+#             ii[5] = ii[5]*1.2
+#             print('correct price to pdv')
+#     return base
