@@ -254,3 +254,15 @@ def test_to_waybill(text):
         
     else:
         return False
+    
+    
+def correct_weight(base):
+    base = base
+    for i in base:
+        for ii in i[1]:
+#             print(ii[3])
+            if ii[3] == 'кг':
+                ii[3] = 'т'
+                ii[2] = ii[2]/1000
+                print('correct кг to t')
+    return base
